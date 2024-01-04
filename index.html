@@ -8,6 +8,10 @@
 <body>
   <label for="numExercises">Number of Exercises:</label>
   <input type="number" id="numExercises" min="1" value="1">
+  
+  <label for="restTime">Rest Time (seconds) between sets:</label>
+  <input type="number" id="restTime" min="0" value="0">
+
   <button onclick="startWorkout()">Start Workout</button>
 
   <h1 id="exerciseDisplay"></h1>
@@ -24,11 +28,13 @@
     let currentExercise = 1;
     let currentSet = 0; // Start from 0
     let totalExercises = 1;
+    let restTime = 0;
 
     function startWorkout() {
       totalExercises = parseInt(document.getElementById('numExercises').value, 10) || 1;
       currentExercise = 1;
       currentSet = 0; // Reset to 0 when starting a new workout
+      restTime = parseInt(document.getElementById('restTime').value, 10) || 0;
       displayExercise();
       document.getElementById('startButton').disabled = false;
       document.getElementById('endExerciseButton').disabled = false; // Enable the "End Exercise" button
@@ -64,7 +70,7 @@
     function startBreak() {
       clearInterval(timer);
       isCountingUp = false;
-      timeInSeconds = 180; // 3 minutes
+      timeInSeconds = restTime; // Use rest time before each set
       updateTimer();
       timer = setInterval(updateTimer, 1000);
     }
