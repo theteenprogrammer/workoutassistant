@@ -3,23 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Timer App</title>
+  <title>Workout Timer</title>
 </head>
 <body>
-  <h1 id="timerDisplay">00:00</h1>
-  <button id="startButton" onclick="toggleTimer()">Start Set</button>
+  <label for="numExercises">Number of Exercises:</label>
+  <input type="number" id="numExercises" min="1" value="1">
+  <button onclick="startWorkout()">Start Workout</button>
+
+  <h1 id="exerciseDisplay"></h1>
+  <h2 id="setDisplay"></h2>
+  <h3 id="timerDisplay">00:00</h3>
+
+  <button id="startButton" onclick="toggleTimer()" disabled>Start Set</button>
+  <button id="endExerciseButton" onclick="endExercise()" disabled>End Exercise</button>
 
   <script>
     let timer;
     let isCountingUp = false;
     let timeInSeconds = 0;
+    let currentExercise = 1;
+    let currentSet = 0; // Start from 0
+    let totalExercises = 1;
+
+    function startWorkout() {
+      totalExercises = parseInt(document.getElementById('numExercises').value, 10) || 1;
+      currentExercise = 1;
+      currentSet = 0; // Reset to 0 when starting a new workout
+      displayExercise();
+      document.getElementById('startButton').disabled = false;
+      document.getElementById('endExerciseButton').disabled = false; // Enable the "End Exercise" button
+      document.getElementById('exerciseDisplay').innerText = '';
+      document.getElementById('setDisplay').innerText = '';
+      document.getElementById('timerDisplay').innerText = '00:00';
+      document.getElementById('startButton').innerText = 'Start Set';
+    }
 
     function toggleTimer() {
       const startButton = document.getElementById('startButton');
 
       if (startButton.innerText === 'Start Set') {
+        currentSet++; // Increment sets when starting a new set
         startCountUp();
         startButton.innerText = 'Start Break';
+        displaySet();
       } else {
         startBreak();
         startButton.innerText = 'Start Set';
@@ -29,7 +55,9 @@
     function startCountUp() {
       clearInterval(timer);
       isCountingUp = true;
-      timeInSeconds = 0; // Reset the timer to zero
+      timeInSeconds = 0;
+      displayExercise();
+      displaySet();
       timer = setInterval(updateTimer, 1000);
     }
 
@@ -39,6 +67,27 @@
       timeInSeconds = 180; // 3 minutes
       updateTimer();
       timer = setInterval(updateTimer, 1000);
+    }
+
+    function endExercise() {
+      currentSet = 0; // Reset to 0 when ending an exercise
+      currentExercise++;
+      if (currentExercise <= totalExercises) {
+        startCountUp();
+        displayExercise();
+        displaySet();
+      } else {
+        // Workout is finished, reset everything
+        clearInterval(timer);
+        isCountingUp = true;
+        currentExercise = 1;
+        timeInSeconds = 0;
+        document.getElementById('startButton').disabled = true;
+        document.getElementById('endExerciseButton').disabled = true; // Disable the "End Exercise" button
+        document.getElementById('exerciseDisplay').innerText = '';
+        document.getElementById('setDisplay').innerText = '';
+        document.getElementById('timerDisplay').innerText = '00:00';
+      }
     }
 
     function updateTimer() {
@@ -52,7 +101,7 @@
         } else {
           clearInterval(timer);
           isCountingUp = true;
-          startCountUp();
+          endExercise();
           return;
         }
       }
@@ -65,6 +114,14 @@
 
     function padZero(value) {
       return value < 10 ? `0${value}` : value;
+    }
+
+    function displayExercise() {
+      document.getElementById('exerciseDisplay').innerText = `Exercise: ${currentExercise}`;
+    }
+
+    function displaySet() {
+      document.getElementById('setDisplay').innerText = `Sets: ${currentSet}`;
     }
   </script>
 </body>
