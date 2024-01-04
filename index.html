@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timer App</title>
+</head>
+<body>
+  <h1 id="timerDisplay">00:00</h1>
+  <button id="startButton" onclick="toggleTimer()">Start Set</button>
+
+  <script>
+    let timer;
+    let isCountingUp = false;
+    let timeInSeconds = 0;
+
+    function toggleTimer() {
+      const startButton = document.getElementById('startButton');
+
+      if (startButton.innerText === 'Start Set') {
+        startCountUp();
+        startButton.innerText = 'Start Break';
+      } else {
+        startBreak();
+        startButton.innerText = 'Start Set';
+      }
+    }
+
+    function startCountUp() {
+      clearInterval(timer);
+      isCountingUp = true;
+      timeInSeconds = 0; // Reset the timer to zero
+      timer = setInterval(updateTimer, 1000);
+    }
+
+    function startBreak() {
+      clearInterval(timer);
+      isCountingUp = false;
+      timeInSeconds = 180; // 3 minutes
+      updateTimer();
+      timer = setInterval(updateTimer, 1000);
+    }
+
+    function updateTimer() {
+      const timerDisplay = document.getElementById('timerDisplay');
+
+      if (isCountingUp) {
+        timeInSeconds++;
+      } else {
+        if (timeInSeconds > 0) {
+          timeInSeconds--;
+        } else {
+          clearInterval(timer);
+          isCountingUp = true;
+          startCountUp();
+          return;
+        }
+      }
+
+      const minutes = Math.floor(timeInSeconds / 60);
+      const seconds = timeInSeconds % 60;
+
+      timerDisplay.innerText = `${padZero(minutes)}:${padZero(seconds)}`;
+    }
+
+    function padZero(value) {
+      return value < 10 ? `0${value}` : value;
+    }
+  </script>
+</body>
+</html>
