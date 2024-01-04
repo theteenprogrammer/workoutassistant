@@ -1,7 +1,12 @@
 # workoutassistant
-I intend it to be more than a timer
+Currently a workout timer for sets and breaks
 
+<b>Current functions: </b> <br />
+<li>Start set timer</li> <br />
+<li>Start break countdown for 3 minutes</li>
+<br /><br />
+<b>Current features being worked on: </b><br />
 
-It's gonna be like a timer for a workout as a web app and it's going to have some other features like background music and sounds for the transition period per exercise.
-I also intend there to be a community-like nature to it in a similar way as quizlet where you can access other people's workouts. There may also be a reference for muscles used for each exercise available.
-I may also create an algorithm that uses form data to create custom workouts for people to help with muscle imbalances or fitness goals.
+<li>Entering exercises, so that the timer will also display exercise so that user will not forget </li><br />
+
+<li>Set number, so users know what set of the exercise they are at on particular exercise </li>
