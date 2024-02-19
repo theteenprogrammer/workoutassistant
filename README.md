@@ -9,7 +9,7 @@ Currently a workout timer for sets and breaks
 <br /><br />
 <b>Current features being worked on: </b><br />
 <li>Allow user to type in name of exercise instead of number of exercise. </li>
-
+<br /> <br />
 
 <b> Potential Features </b>
 Store data to track attendance -> requires login or cookies
